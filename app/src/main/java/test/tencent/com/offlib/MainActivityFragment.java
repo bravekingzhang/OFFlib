@@ -61,6 +61,12 @@ public class MainActivityFragment extends Fragment {
         });
     }
 
+
+    /**
+     * demo,发送ugc
+     * @param content
+     * @return
+     */
     private Post generatePost(String content) {
         Post post = new Post();
         post.setMood(content);

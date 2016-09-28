@@ -20,7 +20,10 @@ public class PostModel extends BaseModel {
 
     @Override
     public void save(Object o) {
-        if (o instanceof Post)
-        App.realmInstance().insertOrUpdate((Post)o);
+        if (o instanceof Post) {
+            App.realmInstance().beginTransaction();
+            App.realmInstance().insertOrUpdate((Post) o);
+            App.realmInstance().commitTransaction();
+        }
     }
 }
