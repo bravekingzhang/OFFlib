@@ -19,8 +19,9 @@ package test.tencent.com.offlib.job;
 
 import android.support.annotation.IntDef;
 
-import com.path.android.jobqueue.Job;
-import com.path.android.jobqueue.Params;
+
+import com.birbit.android.jobqueue.Job;
+import com.birbit.android.jobqueue.Params;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

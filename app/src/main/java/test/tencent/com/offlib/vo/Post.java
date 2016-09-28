@@ -3,6 +3,8 @@ package test.tencent.com.offlib.vo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 import io.realm.RealmModel;
 import io.realm.annotations.RealmClass;
 import test.tencent.com.offlib.util.Validation;
@@ -14,13 +16,24 @@ import test.tencent.com.offlib.util.Validation;
  */
 
 @RealmClass
-public class Post implements RealmModel,Parcelable,Validation {
+public class Post implements RealmModel,Parcelable,Validation,Serializable {
+
 
     private boolean mPending;//发送状态
 
     private String mLocalUniqId;//本地唯一Id,用于给服务器端区分是否重复发送
 
     private String mood;
+
+    private long ctime;
+
+    public long getCtime() {
+        return ctime;
+    }
+
+    public void setCtime(long ctime) {
+        this.ctime = ctime;
+    }
 
     public String getMood() {
         return mood;
@@ -51,6 +64,7 @@ public class Post implements RealmModel,Parcelable,Validation {
 
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -61,6 +75,7 @@ public class Post implements RealmModel,Parcelable,Validation {
         dest.writeByte(this.mPending ? (byte) 1 : (byte) 0);
         dest.writeString(this.mLocalUniqId);
         dest.writeString(this.mood);
+        dest.writeLong(this.ctime);
     }
 
     public Post() {
@@ -70,6 +85,7 @@ public class Post implements RealmModel,Parcelable,Validation {
         this.mPending = in.readByte() != 0;
         this.mLocalUniqId = in.readString();
         this.mood = in.readString();
+        this.ctime = in.readLong();
     }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {

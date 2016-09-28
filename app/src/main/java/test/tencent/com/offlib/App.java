@@ -1,9 +1,11 @@
 package test.tencent.com.offlib;
 
 import android.app.Application;
+import android.content.Context;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import test.tencent.com.offlib.util.MyRealmMigration;
 
 /**
  * Created by hoollyzhang on 16/9/27.
@@ -12,12 +14,17 @@ import io.realm.RealmConfiguration;
 
 public class App extends Application {
     private static RealmConfiguration mRealmConfig;
-    private static Realm mRealm;
+    private static Context mApplicationContext;
     @Override
     public void onCreate() {
         super.onCreate();
-        mRealmConfig = new RealmConfiguration.Builder(getApplicationContext()).name("demo.realm").schemaVersion(1).build();
+        mApplicationContext = getApplicationContext();
+        mRealmConfig = new RealmConfiguration.Builder(mApplicationContext).name("demo.realm").schemaVersion(1).migration(new MyRealmMigration()).build();
         Realm.setDefaultConfiguration(mRealmConfig);
+    }
+
+    public static Context ApplicationContext(){
+        return mApplicationContext;
     }
 
     @Override
@@ -27,18 +34,7 @@ public class App extends Application {
 
 
     public static  Realm realmInstance(){
-        if (mRealm==null){
-            synchronized (Realm.class){
-                if (mRealm==null){
-                    mRealm = Realm.getInstance(mRealmConfig);
-                    return mRealm;
-                }else{
-                    return mRealm;
-                }
-            }
-        }else{
-            return mRealm;
-        }
+        return Realm.getInstance(mRealmConfig);
     }
 
 }

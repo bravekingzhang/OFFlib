@@ -22,6 +22,10 @@ public class PostModel extends BaseModel {
     public void save(Object o) {
         if (o instanceof Post) {
             App.realmInstance().beginTransaction();
+            RealmResults realmResults = App.realmInstance().where(Post.class).equalTo("mLocalUniqId",((Post) o).getmLocalUniqId()).findAll();
+            if (realmResults!=null && realmResults.size()>0){
+                realmResults.deleteFirstFromRealm();
+            }
             App.realmInstance().insertOrUpdate((Post) o);
             App.realmInstance().commitTransaction();
         }

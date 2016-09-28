@@ -14,13 +14,17 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import io.realm.RealmResults;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.subscriptions.CompositeSubscription;
+import test.tencent.com.offlib.controller.PostController;
 import test.tencent.com.offlib.model.PostModel;
+import test.tencent.com.offlib.rxevent.DeletePostEvent;
+import test.tencent.com.offlib.rxevent.NewPostEvent;
+import test.tencent.com.offlib.rxevent.UpdatePostEvent;
 import test.tencent.com.offlib.vo.Post;
 
 /**
@@ -35,6 +39,10 @@ public class MainActivityFragment extends Fragment {
     EditText mContent;
     TextView btSender;
 
+    private  PostController mPostController;
+
+    private CompositeSubscription _compositeSubscription = new CompositeSubscription();
+
     public MainActivityFragment() {
 
     }
@@ -42,7 +50,29 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View view =  inflater.inflate(R.layout.fragment_main, container, false);
+        RxBus.getRxBusSingleton().subscribe(_compositeSubscription, new RxBus.EventLisener() {
+            @Override
+            public void dealRxEvent(Object event) {
+                if (event instanceof NewPostEvent){
+                    mPostAdapter.addPost(((NewPostEvent) event).getPost());
+                }else if (event instanceof UpdatePostEvent){
+                    mPostAdapter.updatePost(((UpdatePostEvent) event).getPost());
+                }else if (event instanceof DeletePostEvent){
+                    mPostAdapter.deletePost(((DeletePostEvent) event).getPost());
+                }
+            }
+        });
+        mPostController= new PostController();
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (!_compositeSubscription.isUnsubscribed()){
+            _compositeSubscription.unsubscribe();
+        }
     }
 
     @Override
@@ -50,7 +80,7 @@ public class MainActivityFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         postModel = new PostModel();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        mPostAdapter = new PostAdapter();
+        mPostAdapter = new PostAdapter(mRecyclerView);
         mRecyclerView.setAdapter(mPostAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         btSender = (TextView) view.findViewById(R.id.bt_send);
@@ -60,13 +90,20 @@ public class MainActivityFragment extends Fragment {
             public void onClick(View view) {
                 // TODO: 16/9/27 validation
                 String content = mContent.getText().toString().trim();
-                Post post = generatePost(content);
-                mPostAdapter.addPost(post);
-                postModel.save(post);
+                // TODO: 16/9/28 参数过多可以考虑bulid模式
+                mPostController.newPost(content);
                 mContent.setText("");
             }
         });
 
+        initPosts();
+
+    }
+
+    /**
+     * 从本地缓存初始化列表数据
+     */
+    private void initPosts() {
         postModel.loadFromLocal().subscribeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<RealmResults<Post>, List<Post>>() {
                     @Override
@@ -89,7 +126,6 @@ public class MainActivityFragment extends Fragment {
                 mPostAdapter.setPosts(posts);
             }
         });
-
     }
 
     @NonNull
@@ -99,21 +135,6 @@ public class MainActivityFragment extends Fragment {
             postlist.add(posts.get(i));
         }
         return postlist;
-    }
-
-
-    /**
-     * demo,发送ugc
-     *
-     * @param content
-     * @return
-     */
-    private Post generatePost(String content) {
-        Post post = new Post();
-        post.setMood(content);
-        post.setmLocalUniqId(UUID.randomUUID().toString());
-        post.setmPending(true);
-        return post;
     }
 
 }
