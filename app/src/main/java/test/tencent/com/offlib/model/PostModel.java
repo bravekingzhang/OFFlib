@@ -1,9 +1,14 @@
 package test.tencent.com.offlib.model;
 
 
+import java.util.List;
+import java.util.Random;
+
 import io.realm.RealmResults;
 import rx.Observable;
+import rx.Subscriber;
 import test.tencent.com.offlib.App;
+import test.tencent.com.offlib.util.MockUtils;
 import test.tencent.com.offlib.vo.Post;
 
 /**
@@ -29,5 +34,22 @@ public class PostModel extends BaseModel {
             App.realmInstance().insertOrUpdate((Post) o);
             App.realmInstance().commitTransaction();
         }
+    }
+
+    public Observable<List<Post>> loadFromNetWork(){
+        return Observable.create(new Observable.OnSubscribe<List<Post>>() {
+            @Override
+            public void call(Subscriber<? super List<Post>> subscriber) {
+                // TODO: 16/9/28 这里是模拟网络拿数据,真实项目显然不是这回事
+                List<Post> postlist = MockUtils.mockPosts(new Random().nextInt(5));
+                subscriber.onNext(postlist);
+                App.realmInstance().beginTransaction();
+                for (int i=0;i<postlist.size();i++){
+                    App.realmInstance().insertOrUpdate(postlist.get(i));
+                }
+                App.realmInstance().commitTransaction();
+                subscriber.onCompleted();
+            }
+        });
     }
 }

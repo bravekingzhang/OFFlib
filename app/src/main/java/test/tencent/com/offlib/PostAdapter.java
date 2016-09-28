@@ -120,6 +120,21 @@ public class PostAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public void addposts(List<Post> posts) {
+        if (this.posts == null) {
+            this.posts = new ArrayList<>();
+        }
+        final int oldSize = this.posts.size();
+        this.posts.addAll(posts);
+        final int newSize = this.posts.size();
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                notifyItemRangeInserted(oldSize, newSize - oldSize);
+                mRecyclerView.smoothScrollToPosition(PostAdapter.this.posts.size());
+            }
+        });
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 

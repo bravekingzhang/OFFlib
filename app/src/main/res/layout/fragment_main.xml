@@ -25,21 +25,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/bt_send"
-        android:textColor="@color/colorAccent"
+        android:layout_toStartOf="@+id/bt_send"
         android:hint="说点什么吧"
-        android:layout_toStartOf="@+id/bt_send"/>
+        android:textColor="@color/colorAccent"/>
     <TextView
-        android:layout_alignBaseline="@id/et_msg"
         android:id="@+id/bt_send"
         android:layout_width="40dp"
         android:layout_height="20dp"
+        android:layout_alignBaseline="@id/et_msg"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
-        android:gravity="center"
         android:background="@drawable/bg_sender_selector"
+        android:gravity="center"
         android:text="发送"
+    />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/load_net_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
     />
 
 </RelativeLayout>
