@@ -1,7 +1,8 @@
 package test.tencent.com.offlib.model;
 
-import java.util.List;
 
+import io.realm.RealmResults;
+import rx.Observable;
 import test.tencent.com.offlib.App;
 import test.tencent.com.offlib.vo.Post;
 
@@ -13,9 +14,8 @@ import test.tencent.com.offlib.vo.Post;
 public class PostModel extends BaseModel {
 
     @Override
-    public List<Post> loadFromLocal() {
-        List<Post> posts = App.realmInstance().where(Post.class).findAll().subList(0, 100);
-        return posts;
+    public Observable<RealmResults<Post>> loadFromLocal() {
+        return App.realmInstance().where(Post.class).findAll().asObservable();
     }
 
     @Override
