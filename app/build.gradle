@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 24
@@ -30,5 +30,7 @@ dependencies {
     compile 'com.birbit:android-priority-jobqueue:2.0.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
+    compile 'org.greenrobot:greendao:3.2.0'
     testCompile 'junit:junit:4.12'
+
 }

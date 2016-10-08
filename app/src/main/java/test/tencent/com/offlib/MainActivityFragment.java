@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.RealmResults;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import test.tencent.com.offlib.controller.PostController;
@@ -37,6 +36,8 @@ import test.tencent.com.offlib.vo.Post;
  */
 public class MainActivityFragment extends Fragment {
 
+    private static final String TAG = "MainActivityFragment";
+
     RecyclerView mRecyclerView;
     PostAdapter  mPostAdapter;
     PostModel    postModel;
@@ -48,7 +49,16 @@ public class MainActivityFragment extends Fragment {
 
     private PostController mPostController;
 
-    private CompositeSubscription _compositeSubscription = new CompositeSubscription();
+    private CompositeSubscription _compositeSubscription;
+
+    public static MainActivityFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        MainActivityFragment fragment = new MainActivityFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public MainActivityFragment() {
 
@@ -58,6 +68,7 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+        _compositeSubscription = new CompositeSubscription();
         RxBus.getRxBusSingleton().subscribe(_compositeSubscription, new RxBus.EventLisener() {
             @Override
             public void dealRxEvent(Object event) {
@@ -76,6 +87,7 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        Log.e(TAG, "onDestroyView() called with: " + "");
         super.onDestroyView();
         if (!_compositeSubscription.isUnsubscribed()) {
             _compositeSubscription.unsubscribe();
@@ -167,7 +179,7 @@ public class MainActivityFragment extends Fragment {
 
                     @Override
                     public void onNext(List<Post> posts) {
-                        Toast.makeText(getContext(),"从网络上拉取了"+posts.size()+"条心情",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "从网络上拉取了" + posts.size() + "条心情", Toast.LENGTH_LONG).show();
                         mPostAdapter.addposts(posts);
                     }
                 });

@@ -13,14 +13,11 @@ import test.tencent.com.offlib.util.MyRealmMigration;
  */
 
 public class App extends Application {
-    private static RealmConfiguration mRealmConfig;
     private static Context mApplicationContext;
     @Override
     public void onCreate() {
         super.onCreate();
         mApplicationContext = getApplicationContext();
-        mRealmConfig = new RealmConfiguration.Builder(mApplicationContext).name("demo.realm").schemaVersion(1).migration(new MyRealmMigration()).build();
-        Realm.setDefaultConfiguration(mRealmConfig);
     }
 
     public static Context ApplicationContext(){
@@ -32,9 +29,5 @@ public class App extends Application {
         super.onTrimMemory(level);
     }
 
-
-    public static  Realm realmInstance(){
-        return Realm.getInstance(mRealmConfig);
-    }
 
 }
