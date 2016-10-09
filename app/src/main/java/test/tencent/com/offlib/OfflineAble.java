@@ -3,6 +3,7 @@ package test.tencent.com.offlib;
 import java.util.List;
 
 import rx.Observable;
+import test.tencent.com.offlib.vo.Post;
 
 /**
  * Created by hoollyzhang on 16/9/27.
@@ -11,5 +12,5 @@ import rx.Observable;
 
 public interface OfflineAble<T> {
     Observable<T> loadFromLocal();
-    void save(T t);
+    Observable<Post> save(T t);
 }

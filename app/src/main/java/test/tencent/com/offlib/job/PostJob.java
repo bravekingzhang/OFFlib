@@ -10,6 +10,7 @@ import com.birbit.android.jobqueue.RetryConstraint;
 
 import java.util.UUID;
 
+import test.tencent.com.offlib.App;
 import test.tencent.com.offlib.RxBus;
 import test.tencent.com.offlib.model.PostModel;
 import test.tencent.com.offlib.rxevent.DeletePostEvent;
@@ -37,7 +38,7 @@ public class PostJob extends BaseJob {
 
     @Override
     public void onAdded() {
-        PostModel postModel = new PostModel();
+        PostModel postModel = new PostModel(((App)getApplicationContext()).getDaoSession());
         postModel.save(post);
         RxBus.getRxBusSingleton().send(new NewPostEvent(post));
         Log.e(TAG, "onAdded() called with: " + "");
@@ -52,7 +53,7 @@ public class PostJob extends BaseJob {
         post.setmPending(false); //发送成功
         post.setCtime(System.currentTimeMillis() / 1000);//服务器返回的时间,id之类的更新
         RxBus.getRxBusSingleton().send(new UpdatePostEvent(post));
-        PostModel postModel = new PostModel();
+        PostModel postModel = new PostModel(((App)getApplicationContext()).getDaoSession());
         postModel.save(post);
         //这里的更新的关键字暂时使用 uuid来,当然真是项目中不可能如此简单
     }

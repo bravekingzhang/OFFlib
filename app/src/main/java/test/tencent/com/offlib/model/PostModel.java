@@ -1,14 +1,15 @@
 package test.tencent.com.offlib.model;
 
 
+import org.greenrobot.greendao.rx.RxDao;
+
 import java.util.List;
 import java.util.Random;
 
-import io.realm.RealmResults;
 import rx.Observable;
 import rx.Subscriber;
-import test.tencent.com.offlib.App;
 import test.tencent.com.offlib.util.MockUtils;
+import test.tencent.com.offlib.vo.DaoSession;
 import test.tencent.com.offlib.vo.Post;
 
 /**
@@ -18,24 +19,32 @@ import test.tencent.com.offlib.vo.Post;
 
 public class PostModel extends BaseModel {
 
-    @Override
-    public Observable<RealmResults<Post>> loadFromLocal() {
-        return App.realmInstance().where(Post.class).findAll().asObservable();
+    private DaoSession        daoSession;
+    private RxDao<Post, Long> mPostDao;
+
+    public PostModel(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        this.mPostDao = this.daoSession.getPostDao().rx();
     }
 
     @Override
-    public void save(Object o) {
+    public Observable<List<Post>> loadFromLocal() {
+        return mPostDao.loadAll();
+    }
+
+    @Override
+    public Observable<Post> save(Object o) {
         if (o instanceof Post) {
-            App.realmInstance().beginTransaction();
-            RealmResults realmResults = App.realmInstance().where(Post.class).equalTo("mLocalUniqId",((Post) o).getmLocalUniqId()).findAll();
+           /* RealmResults realmResults = App.realmInstance().where(Post.class).equalTo("mLocalUniqId",((Post) o).getmLocalUniqId()).findAll();
             if (realmResults!=null && realmResults.size()>0){
                 realmResults.deleteFirstFromRealm();
             }
             App.realmInstance().insertOrUpdate((Post) o);
-            App.realmInstance().commitTransaction();
+            App.realmInstance().commitTransaction();*/
+            return mPostDao.save((Post) o);
         }
+        return null;
     }
-
     public Observable<List<Post>> loadFromNetWork(){
         return Observable.create(new Observable.OnSubscribe<List<Post>>() {
             @Override
@@ -43,11 +52,7 @@ public class PostModel extends BaseModel {
                 // TODO: 16/9/28 这里是模拟网络拿数据,真实项目显然不是这回事
                 List<Post> postlist = MockUtils.mockPosts(new Random().nextInt(5));
                 subscriber.onNext(postlist);
-                App.realmInstance().beginTransaction();
-                for (int i=0;i<postlist.size();i++){
-                    App.realmInstance().insertOrUpdate(postlist.get(i));
-                }
-                App.realmInstance().commitTransaction();
+                mPostDao.saveInTx(postlist);
                 subscriber.onCompleted();
             }
         });

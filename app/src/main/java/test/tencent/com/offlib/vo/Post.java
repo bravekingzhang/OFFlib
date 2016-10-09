@@ -3,11 +3,14 @@ package test.tencent.com.offlib.vo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Transient;
+
 import java.io.Serializable;
 
-import io.realm.RealmModel;
-import io.realm.annotations.RealmClass;
 import test.tencent.com.offlib.util.Validation;
+import org.greenrobot.greendao.annotation.Generated;
 
 
 /**
@@ -15,9 +18,15 @@ import test.tencent.com.offlib.util.Validation;
  * Description :这里只是一个demo vo
  */
 
-@RealmClass
-public class Post implements RealmModel,Parcelable,Validation,Serializable {
+@Entity
+public class Post implements Parcelable, Validation, Serializable {
 
+
+    @Transient
+    public static final long serialVersionUID = 1;
+
+    @Id(autoincrement = true)
+    private Long id;
 
     private boolean mPending;//发送状态
 
@@ -59,9 +68,17 @@ public class Post implements RealmModel,Parcelable,Validation,Serializable {
         this.mLocalUniqId = mLocalUniqId;
     }
 
-    @Override
-    public void validate() {
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean validate() {
+        return mood != null && !mood.equals("");
     }
 
 
@@ -72,20 +89,48 @@ public class Post implements RealmModel,Parcelable,Validation,Serializable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
         dest.writeByte(this.mPending ? (byte) 1 : (byte) 0);
         dest.writeString(this.mLocalUniqId);
         dest.writeString(this.mood);
         dest.writeLong(this.ctime);
     }
 
+    public boolean getMPending() {
+        return this.mPending;
+    }
+
+    public void setMPending(boolean mPending) {
+        this.mPending = mPending;
+    }
+
+    public String getMLocalUniqId() {
+        return this.mLocalUniqId;
+    }
+
+    public void setMLocalUniqId(String mLocalUniqId) {
+        this.mLocalUniqId = mLocalUniqId;
+    }
+
     public Post() {
     }
 
     protected Post(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.mPending = in.readByte() != 0;
         this.mLocalUniqId = in.readString();
         this.mood = in.readString();
         this.ctime = in.readLong();
+    }
+
+    @Generated(hash = 1899428625)
+    public Post(Long id, boolean mPending, String mLocalUniqId, String mood,
+            long ctime) {
+        this.id = id;
+        this.mPending = mPending;
+        this.mLocalUniqId = mLocalUniqId;
+        this.mood = mood;
+        this.ctime = ctime;
     }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {

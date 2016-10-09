@@ -6,5 +6,5 @@ package test.tencent.com.offlib.util;
  */
 
 public interface Validation {
-    void validate();
+    boolean validate();
 }

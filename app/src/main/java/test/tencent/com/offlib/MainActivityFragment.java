@@ -1,7 +1,6 @@
 package test.tencent.com.offlib;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -97,7 +95,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        postModel = new PostModel();
+        postModel = new PostModel(((App)getContext().getApplicationContext()).getDaoSession());
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mPostAdapter = new PostAdapter(mRecyclerView);
         mRecyclerView.setAdapter(mPostAdapter);
@@ -135,12 +133,7 @@ public class MainActivityFragment extends Fragment {
      */
     private void initPosts() {
         postModel.loadFromLocal().subscribeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<RealmResults<Post>, List<Post>>() {
-                    @Override
-                    public List<Post> call(RealmResults<Post> posts) {
-                        return realmResult2list(posts);
-                    }
-                }).subscribe(new Subscriber<List<Post>>() {
+                .subscribe(new Subscriber<List<Post>>() {
             @Override
             public void onCompleted() {
 
@@ -183,15 +176,6 @@ public class MainActivityFragment extends Fragment {
                         mPostAdapter.addposts(posts);
                     }
                 });
-    }
-
-    @NonNull
-    private List<Post> realmResult2list(RealmResults<Post> posts) {
-        List<Post> postlist = new ArrayList<>();
-        for (int i = 0; i < posts.size(); i++) {
-            postlist.add(posts.get(i));
-        }
-        return postlist;
     }
 
 }
