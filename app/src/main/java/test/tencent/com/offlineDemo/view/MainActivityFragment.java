@@ -1,4 +1,4 @@
-package test.tencent.com.offlineDemo;
+package test.tencent.com.offlineDemo.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +17,13 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import test.tencent.com.offlineDemo.App;
+import test.tencent.com.offlineDemo.util.Injection;
+import test.tencent.com.offlineDemo.adapter.PostAdapter;
+import test.tencent.com.offlineDemo.presenter.PostContract;
+import test.tencent.com.offlineDemo.presenter.PostPresenter;
+import test.tencent.com.offlineDemo.R;
+import test.tencent.com.offlineDemo.RxBus;
 import test.tencent.com.offlineDemo.rxevent.DeletePostEvent;
 import test.tencent.com.offlineDemo.rxevent.NewPostEvent;
 import test.tencent.com.offlineDemo.rxevent.UpdatePostEvent;

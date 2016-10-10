@@ -1,4 +1,4 @@
-package test.tencent.com.offlineDemo;
+package test.tencent.com.offlineDemo.model;
 
 import java.util.List;
 

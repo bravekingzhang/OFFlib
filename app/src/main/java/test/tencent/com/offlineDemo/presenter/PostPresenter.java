@@ -1,4 +1,4 @@
-package test.tencent.com.offlineDemo;
+package test.tencent.com.offlineDemo.presenter;
 
 
 import java.util.List;
@@ -8,8 +8,9 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-import test.tencent.com.offlineDemo.controller.PostController;
+import test.tencent.com.offlineDemo.jobmanger.PostJobManger;
 import test.tencent.com.offlineDemo.model.PostModel;
+import test.tencent.com.offlineDemo.presenter.PostContract;
 import test.tencent.com.offlineDemo.vo.DaoSession;
 import test.tencent.com.offlineDemo.vo.Post;
 
@@ -20,14 +21,14 @@ import test.tencent.com.offlineDemo.vo.Post;
 
 public class PostPresenter implements PostContract.Presenter {
 
-    private PostContract.View view;
-    private PostModel         postModel;
-    private PostController    mPostController;
+    private PostContract.View     view;
+    private PostModel             postModel;
+    private PostJobManger         mPostController;
     private CompositeSubscription mSubscription;
 
     public PostPresenter(DaoSession daoSession) {
         postModel = new PostModel(daoSession);
-        mPostController = new PostController();
+        mPostController = new PostJobManger();
         mSubscription = new CompositeSubscription();
     }
 

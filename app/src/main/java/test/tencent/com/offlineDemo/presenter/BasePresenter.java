@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package test.tencent.com.offlineDemo;
+package test.tencent.com.offlineDemo.presenter;
 
 
 public interface BasePresenter<T> {

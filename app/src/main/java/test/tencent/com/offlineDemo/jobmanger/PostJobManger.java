@@ -1,4 +1,4 @@
-package test.tencent.com.offlineDemo.controller;
+package test.tencent.com.offlineDemo.jobmanger;
 
 
 import com.birbit.android.jobqueue.JobManager;
@@ -13,11 +13,11 @@ import test.tencent.com.offlineDemo.job.PostJob;
  * Description :
  */
 
-public class PostController {
+public class PostJobManger {
 
     private JobManager mJobManager;
 
-    public PostController() {
+    public PostJobManger() {
         Configuration configuration = new Configuration.Builder(App.ApplicationContext()).build();
         this.mJobManager = new JobManager(configuration);
     }

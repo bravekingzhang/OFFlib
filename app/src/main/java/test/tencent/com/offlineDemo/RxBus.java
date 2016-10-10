@@ -52,9 +52,6 @@ public final class RxBus {
     public void subscribe(@NonNull CompositeSubscription subscription, @NonNull final EventLisener eventLisener) {
         subscription.add(_bus
                 .asObservable()
-                ///.debounce(100, TimeUnit.MILLISECONDS)//事件去重，会切换线程，每个卵用，去掉
-                //.distinct()
-                //.distinctUntilChanged()
                 .subscribe(new Action1<Object>() {
                     @Override
                     public void call(Object event) {

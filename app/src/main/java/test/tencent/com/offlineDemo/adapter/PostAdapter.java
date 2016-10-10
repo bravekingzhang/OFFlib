@@ -1,4 +1,4 @@
-package test.tencent.com.offlineDemo;
+package test.tencent.com.offlineDemo.adapter;
 
 import android.graphics.Color;
 import android.os.Handler;

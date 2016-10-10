@@ -1,7 +1,9 @@
-package test.tencent.com.offlineDemo;
+package test.tencent.com.offlineDemo.presenter;
 
 import java.util.List;
 
+import test.tencent.com.offlineDemo.presenter.BasePresenter;
+import test.tencent.com.offlineDemo.view.BaseView;
 import test.tencent.com.offlineDemo.vo.Post;
 
 /**
@@ -11,7 +13,7 @@ import test.tencent.com.offlineDemo.vo.Post;
 
 public interface PostContract {
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void showPosts(List<Post> posts);
 
         void showToast(String s);

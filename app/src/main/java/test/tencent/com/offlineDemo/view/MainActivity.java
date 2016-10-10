@@ -1,10 +1,12 @@
-package test.tencent.com.offlineDemo;
+package test.tencent.com.offlineDemo.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import test.tencent.com.offlineDemo.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment,MainActivityFragment.newInstance()).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, MainActivityFragment.newInstance()).commitAllowingStateLoss();
     }
 
     @Override

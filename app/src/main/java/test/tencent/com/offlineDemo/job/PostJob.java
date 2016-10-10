@@ -7,7 +7,7 @@ import android.util.Log;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 
-import test.tencent.com.offlineDemo.Injection;
+import test.tencent.com.offlineDemo.util.Injection;
 import test.tencent.com.offlineDemo.RxBus;
 import test.tencent.com.offlineDemo.model.PostModel;
 import test.tencent.com.offlineDemo.rxevent.DeletePostEvent;

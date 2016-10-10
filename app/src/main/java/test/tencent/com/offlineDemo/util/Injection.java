@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package test.tencent.com.offlineDemo;
+package test.tencent.com.offlineDemo.util;
 
 
 import android.content.Context;
 
+import test.tencent.com.offlineDemo.App;
 import test.tencent.com.offlineDemo.util.schedulers.BaseSchedulerProvider;
 import test.tencent.com.offlineDemo.util.schedulers.SchedulerProvider;
 import test.tencent.com.offlineDemo.vo.DaoSession;

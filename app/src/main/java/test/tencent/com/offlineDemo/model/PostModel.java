@@ -3,7 +3,6 @@ package test.tencent.com.offlineDemo.model;
 
 import android.support.annotation.Nullable;
 
-import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.query.WhereCondition;
 import org.greenrobot.greendao.rx.RxDao;
 
