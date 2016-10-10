@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">OFFlib</string>
+    <string name="app_name">app离线化demo</string>
     <string name="action_settings">Settings</string>
 </resources>
