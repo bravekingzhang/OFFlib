@@ -22,7 +22,7 @@ public class PostController {
         this.mJobManager = new JobManager(configuration);
     }
 
-    public void newPost(String content) {
-        mJobManager.addJobInBackground(new PostJob(BaseJob.BACKGROUND, content));
+    public void newPost(String content,String localId) {
+        mJobManager.addJobInBackground(new PostJob(BaseJob.BACKGROUND, content,localId));
     }
 }

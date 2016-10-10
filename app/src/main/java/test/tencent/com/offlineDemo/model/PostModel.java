@@ -1,6 +1,10 @@
 package test.tencent.com.offlineDemo.model;
 
 
+import android.support.annotation.Nullable;
+
+import org.greenrobot.greendao.Property;
+import org.greenrobot.greendao.query.WhereCondition;
 import org.greenrobot.greendao.rx.RxDao;
 
 import java.util.List;
@@ -38,6 +42,16 @@ public class PostModel extends BaseModel {
     @Override
     public void save(Object o) {
         mPostDao.save((Post) o);
+    }
+
+    @Nullable
+    public Post getPostByLocalId(String localid){
+        List<Post> posts  = mPostDao.queryBuilder().where(new WhereCondition.PropertyCondition(PostDao.Properties.MLocalUniqId, "=?",localid)).build().list();
+        if (posts!=null && posts.size()>0){
+            return posts.get(0);
+        }else{
+            return null;
+        }
     }
 
 

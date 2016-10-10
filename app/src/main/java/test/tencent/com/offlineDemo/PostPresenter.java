@@ -2,6 +2,7 @@ package test.tencent.com.offlineDemo;
 
 
 import java.util.List;
+import java.util.UUID;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -79,7 +80,6 @@ public class PostPresenter implements PostContract.Presenter {
 
                         @Override
                         public void onError(Throwable e) {
-                            //Toast.makeText(getContext(),"从网络上拉取了"+posts.size()+"条心情",Toast.LENGTH_LONG).show();
                         }
 
                         @Override
@@ -96,6 +96,6 @@ public class PostPresenter implements PostContract.Presenter {
 
     @Override
     public void newPost(String content) {
-        mPostController.newPost(content);
+        mPostController.newPost(content, UUID.randomUUID().toString());
     }
 }
