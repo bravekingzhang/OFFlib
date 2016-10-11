@@ -16,5 +16,6 @@ the color change to green from red.
 
 when app lanuch agin,job start to send again.
 
-![2016-10-11 10_19_01.gif](http://upload-images.jianshu.io/upload_images/1019822-c807eb1c7e6be871.gif?imageMogr2/auto-orient/strip)
+![2016-10-11 17_39_47.gif](http://upload-images.jianshu.io/upload_images/1019822-2bdf4ed10eb1e1c9.gif?imageMogr2/auto-orient/strip)
+
 
