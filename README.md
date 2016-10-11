@@ -1,5 +1,7 @@
 # OFFlib
 
+for detial infomation ,please see http://www.jianshu.com/p/c644a325c11d
+
 make you app offline is very important for UX,because of network is not always our friends.
 
 when network become not very well ,user may have a bad UX,so let's have a look at what a offlinable app does:
