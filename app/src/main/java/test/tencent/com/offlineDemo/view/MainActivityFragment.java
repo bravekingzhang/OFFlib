@@ -98,6 +98,7 @@ public class MainActivityFragment extends Fragment implements PostContract.View 
         mRecyclerView.setAdapter(mPostAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
+        itemDecoration.setDrawableHeight(1);
         itemDecoration.setmDivider(ContextCompat.getDrawable(getContext(), R.drawable.divider));
         mRecyclerView.addItemDecoration(itemDecoration);
         btSender = (TextView) view.findViewById(R.id.bt_send);

@@ -25,7 +25,7 @@ public class PostJob extends BaseJob {
     private static final String TAG   = "PostJob";
     private static final String GROUP = "POSTJOB";
 
-    private static final int SERVICE_LATENCY_IN_MILLIS = 5000;//模拟网路延时
+    private static final int SERVICE_LATENCY_IN_MILLIS = 2000;//模拟网路延时
 
     private String content;//字段需要可序列化的
     private String localId;//这个字段同样需要时可序列化的
